@@ -2,6 +2,8 @@ package ohtu;
 
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.http.client.fluent.Request;
 
 public class Main {
@@ -13,32 +15,45 @@ public class Main {
             studentNr = args[0];
         }
 
-        String url = "https://studies.cs.helsinki.fi/courses/students/" + studentNr + "/submissions";
+        String urlSubs = "https://studies.cs.helsinki.fi/courses/students/" + studentNr + "/submissions";
+        String urlCourse = "https://studies.cs.helsinki.fi/courses/courseinfo";
 
-        String bodyText = Request.Get(url).execute().returnContent().asString();
+        String SubBodyText = Request.Get(urlSubs).execute().returnContent().asString();
+        String CourseBodyText = Request.Get(urlCourse).execute().returnContent().asString();
 
 //        System.out.println("json-muotoinen data:");
-//        System.out.println(bodyText);
+//        System.out.println(CourseBodyText);
 
         Gson mapper = new Gson();
-        Submission[] subs = mapper.fromJson(bodyText, Submission[].class);
+        Submission[] subs = mapper.fromJson(SubBodyText, Submission[].class);
+        Course[] courses = mapper.fromJson(CourseBodyText, Course[].class);
+
+        Set<String> studentCourses = new HashSet<>();
+        for (Submission sub : subs) {
+            if (!studentCourses.contains(sub.getCourse())) {
+                studentCourses.add(sub.getCourse());
+            }
+        }
 
         System.out.println("Student number: " + studentNr);
         System.out.println("");
-        for (Submission submission : subs) {
-            System.out.println(submission);
+        for (Course course : courses) {
+            if (studentCourses.contains(course.getName())) {
+                int exercises = 0;
+                int hours = 0;
+
+                System.out.println(course.getFullName() + "\n");
+                for (Submission submission : subs) {
+                    if (submission.getCourse().equals(course.getName())) {
+                        exercises += submission.getExercises().size();
+                        hours += submission.getHours();
+                        System.out.println(submission);
+                    }
+                }
+                System.out.println("");
+                System.out.println("total: " + exercises+ "/" + course.getTotalExercises() + " exercises " + hours + " hours");
+                System.out.println("");
+            }
         }
-        
-        int exercises = 0;
-        int hours = 0;
-        
-        for (Submission sub : subs) {
-            exercises += sub.getExercises().size();
-            hours += sub.getHours();
-        }
-        
-        System.out.println("");
-        System.out.println("total: " + exercises + " exercises " + hours + " hours");
-        
     }
 }

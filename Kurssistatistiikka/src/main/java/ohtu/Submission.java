@@ -53,9 +53,8 @@ public class Submission {
 
     @Override
     public String toString() {
-        return "" + course
-                + ", week " + week
-                + ", total exercises completed " + exercises.size()
+        return ", week " + week + ":\n  "
+                + "total exercises completed " + exercises.size()
                 + ", time spent " + hours
                 + ", completed exercises: " + listToCleanString() + "";
     }
