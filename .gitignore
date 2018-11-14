@@ -1,0 +1,8 @@
+/Kurssistatistiikka/.nb-gradle/
+*.tmp
+build/
+/.nb-gradle/
+gradle.properties
+.gradle
+.DS_Store
+Kurssistatistiikka/.project
