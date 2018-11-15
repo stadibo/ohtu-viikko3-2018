@@ -6,3 +6,5 @@ gradle.properties
 .gradle
 .DS_Store
 Kurssistatistiikka/.project
+/HelloCucumber/.nb-gradle/
+HelloCucumber/bin/
