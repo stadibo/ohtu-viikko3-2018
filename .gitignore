@@ -1,4 +1,5 @@
 /Kurssistatistiikka/.nb-gradle/
+/Kurssistatistiikka/bin/
 *.tmp
 build/
 /.nb-gradle/
