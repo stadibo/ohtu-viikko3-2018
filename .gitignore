@@ -9,3 +9,5 @@ gradle.properties
 Kurssistatistiikka/.project
 /HelloCucumber/.nb-gradle/
 HelloCucumber/bin/
+/LoginCucumber/.nb-gradle/
+/LoginCucumber/bin/
