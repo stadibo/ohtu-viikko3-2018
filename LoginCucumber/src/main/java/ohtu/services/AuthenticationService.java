@@ -71,7 +71,7 @@ public class AuthenticationService {
         }
         
         for (char p : password.toCharArray()) {
-            if (Character.isDigit(p) || !Character.isLetterOrDigit(p)) {
+            if (!Character.isDigit(p) || !Character.isLetterOrDigit(p)) {
                 return false;
             }
         }
